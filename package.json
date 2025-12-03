@@ -10,25 +10,5 @@
   "author": "Mahesh P.G.",
   "license": "MIT"
 }
-```
 
-### 4. **.gitignore**
-```
-# Dependencies
-node_modules/
-npm-debug.log
-yarn-error.log
 
-# Environment variables
-.env
-.env.local
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
