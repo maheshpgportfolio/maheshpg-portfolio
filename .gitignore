@@ -1,0 +1,148 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Production
+/build
+/dist
+*.min.js
+*.min.css
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+lib-cov/
+
+# Coverage directory
+coverage/
+.nyc_output/
+
+# Testing
+.grunt/
+.lock-wscript
+
+# Optional npm cache
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Temporary folders
+tmp/
+temp/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Next.js
+.next/
+out/
+
+# Gatsby
+.cache/
+public/
+
+# Misc
+*.pem
+.vercel
+.netlify
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Large media files (optional - uncomment if needed)
+# *.mp4
+# *.mov
+# *.avi
+# *.pdf (if you don't want PDFs in repo)
+```
+
+---
+
+## 📋 Quick Setup Instructions
+
+1. **Create these 3 files** in your project folder:
+   - `README.md` (copy content above)
+   - `package.json` (copy content above)
+   - `.gitignore` (copy content above)
+
+2. **Update package.json:**
+   - Replace `YOUR_USERNAME` with your actual GitHub username (2 places)
+
+3. **Update README.md:**
+   - Replace `YOUR_USERNAME` with your actual GitHub username (3 places)
+   - Update the live demo URL once you deploy
+
+4. **Save all files** in your `maheshpg-portfolio` folder
+
+5. **Ready to push to GitHub!**
+
+---
+
+## 🎯 Your Complete File List Should Be:
+```
+maheshpg-portfolio/
+├── index.html          ✅ Your website
+├── README.md           ✅ Just created
+├── package.json        ✅ Just created  
+├── .gitignore         ✅ Just created
+└── images/            (create this folder)
+    └── profile.jpg    (add your photo)
