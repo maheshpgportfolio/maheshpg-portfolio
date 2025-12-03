@@ -1,504 +1,519 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, Award, BookOpen, Building2, Trophy, MessageSquare, Send, Minimize2 } from 'lucide-react';
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mahesh P.G. — Portfolio</title>
 
-const MaheshPortfolio = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hi! I\'m here to answer questions about Mahesh P.G. Ask me about his achievements, patents, company, or records!' }
-  ]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef(null);
+  <!-- Tailwind Play CDN (good for quick deployments / demos) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const maheshInfo = {
-    name: "Mahesh P.G.",
-    dob: "September 2, 2001",
-    location: "Kasaragod, Kerala, India",
-    company: "Yoshio Mech Private Limited",
-    companyIncorporation: "September 14, 2021",
-    patents: [
-      { year: 2019, count: 4, published: 1 },
-      { year: 2020, count: 2, published: 1 }
-    ],
-    records: [
-      {
-        title: "Patent Filing Achievement",
-        description: "Filed 6 patents over 17 months from April 2019 to September 2020",
-        confirmation: "April 21, 2021"
-      },
-      {
-        title: "Youngest Entrepreneur in Mechanical Industry",
-        description: "Founded Yoshio Mech Private Limited at age 20 years and 12 days",
-        confirmation: "February 21, 2023"
-      }
-    ]
-  };
-
-  const getAIResponse = async (userMessage) => {
-    const lowerMsg = userMessage.toLowerCase();
-    
-    if (lowerMsg.includes('patent')) {
-      return `Mahesh P.G. has filed 6 patents over a period of 17 months from April 2019 to September 2020. He filed 4 patents in 2019 and 2 patents in 2020. Two patents were published (one in 2019 and one in 2020), as confirmed on April 21, 2021.`;
-    } else if (lowerMsg.includes('company') || lowerMsg.includes('business') || lowerMsg.includes('yoshio')) {
-      return `Mahesh P.G. is the founder of Yoshio Mech Private Limited, a company manufacturing machineries and equipment. The company was incorporated on September 14, 2021, when Mahesh was just 20 years and 12 days old, making him the youngest entrepreneur in the Mechanical industry.`;
-    } else if (lowerMsg.includes('age') || lowerMsg.includes('born') || lowerMsg.includes('old')) {
-      const birthDate = new Date('2001-09-02');
-      const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
-      return `Mahesh P.G. was born on September 2, 2001, making him ${age} years old. He's from Kasaragod, Kerala, India.`;
-    } else if (lowerMsg.includes('record') || lowerMsg.includes('achievement')) {
-      return `Mahesh P.G. holds two major records recognized by the Asia Book of Records:
-      
-1. Patent Filing Achievement - Filed 6 patents in just 17 months (April 2019 - September 2020)
-
-2. Youngest Entrepreneur in Mechanical Industry - Founded his company at age 20 years and 12 days, setting a record in the mechanical manufacturing sector.`;
-    } else if (lowerMsg.includes('education') || lowerMsg.includes('study') || lowerMsg.includes('degree') || lowerMsg.includes('mba') || lowerMsg.includes('btech') || lowerMsg.includes('diploma')) {
-      return `Mahesh P.G. has an impressive educational background:
-
-📚 MBA - 2025 (Master of Business Administration)
-🎓 B.Tech - 2023 (Bachelor of Technology)
-📖 Diploma - 2021 (Technical Diploma)
-🏫 12th Grade - 2019 (Higher Secondary Education)
-
-His combination of technical engineering education and business management skills has been instrumental in his success as an entrepreneur and innovator.`;
-    } else if (lowerMsg.includes('contact') || lowerMsg.includes('email') || lowerMsg.includes('reach')) {
-      return `For business inquiries or partnerships, you can reach out through the website's contact section. Mahesh P.G. is open to collaborations in the mechanical industry and innovation sectors.`;
-    } else {
-      return `I can help you learn about Mahesh P.G.'s achievements! Ask me about:
-      
-• His patents and innovations
-• Yoshio Mech Private Limited
-• His records and achievements
-• His age and background
-• Partnership opportunities`;
+  <!-- Basic page metadata -->
+  <meta name="description" content="Mahesh P.G. — Innovator, Patent Holder, Youngest Entrepreneur (Yoshio Mech Pvt Ltd)" />
+  <style>
+    /* small extra styles for chat animation */
+    .animate-bounce-dot {
+      display:inline-block;
+      width:8px;
+      height:8px;
+      border-radius:9999px;
+      animation: bounce-dot 1s infinite;
     }
-  };
+    .animate-bounce-dot:nth-child(2){ animation-delay: 0.12s; }
+    .animate-bounce-dot:nth-child(3){ animation-delay: 0.24s; }
+    @keyframes bounce-dot {
+      0% { transform: translateY(0); opacity:0.6;}
+      50% { transform: translateY(-6px); opacity:1;}
+      100% { transform: translateY(0); opacity:0.6;}
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white antialiased">
 
-  const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
+  <!-- Navigation -->
+  <nav class="fixed w-full bg-slate-900/80 backdrop-blur-md z-50 border-b border-blue-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          Mahesh P.G.
+        </div>
 
-    const userMessage = { role: 'user', content: inputMessage };
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
-    setIsTyping(true);
+        <div id="desktopLinks" class="hidden md:flex space-x-8">
+          <a href="#home" class="hover:text-blue-400 transition">Home</a>
+          <a href="#about" class="hover:text-blue-400 transition">About</a>
+          <a href="#education" class="hover:text-blue-400 transition">Education</a>
+          <a href="#achievements" class="hover:text-blue-400 transition">Achievements</a>
+          <a href="#records" class="hover:text-blue-400 transition">Records</a>
+          <a href="#company" class="hover:text-blue-400 transition">Company</a>
+        </div>
 
-    setTimeout(async () => {
-      const response = await getAIResponse(inputMessage);
-      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-      setIsTyping(false);
-    }, 1000);
-  };
+        <button id="mobileMenuBtn" class="md:hidden p-2">
+          <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+               d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+               d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-slate-900/80 backdrop-blur-md z-50 border-b border-blue-500/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+    <div id="mobileLinks" class="md:hidden hidden bg-slate-800 border-t border-blue-500/20">
+      <a href="#home" class="block px-4 py-2 hover:bg-slate-700">Home</a>
+      <a href="#about" class="block px-4 py-2 hover:bg-slate-700">About</a>
+      <a href="#education" class="block px-4 py-2 hover:bg-slate-700">Education</a>
+      <a href="#achievements" class="block px-4 py-2 hover:bg-slate-700">Achievements</a>
+      <a href="#records" class="block px-4 py-2 hover:bg-slate-700">Records</a>
+      <a href="#company" class="block px-4 py-2 hover:bg-slate-700">Company</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section id="home" class="pt-32 pb-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+          <!-- Profile Image -->
+          <div class="relative">
+            <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-blue-500 shadow-2xl shadow-blue-500/50">
+              <!-- If you have images/profile.jpg it will show; otherwise fallback gradient -->
+              <img src="images/profile.jpg" alt="Mahesh P.G." onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover" />
+              <div style="display:none" class="w-full h-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
+                <div class="text-center">
+                  <div class="text-8xl font-bold text-white mb-2">MP</div>
+                  <div class="text-sm text-blue-200">Add Your Photo</div>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -bottom-4 -right-4 bg-yellow-500 p-4 rounded-full">
+              <!-- Trophy SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7V5a4 4 0 0 1 8 0v2"></path><path d="M5 7h14v2a6 6 0 0 1-6 6v3h-2v-3a6 6 0 0 1-6-6V7z"></path></svg>
+            </div>
+          </div>
+
+          <!-- Hero Text -->
+          <div class="text-center md:text-left">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Mahesh P.G.
-            </div>
-            
-            <div className="hidden md:flex space-x-8">
-              <a href="#home" className="hover:text-blue-400 transition">Home</a>
-              <a href="#about" className="hover:text-blue-400 transition">About</a>
-              <a href="#education" className="hover:text-blue-400 transition">Education</a>
-              <a href="#achievements" className="hover:text-blue-400 transition">Achievements</a>
-              <a href="#records" className="hover:text-blue-400 transition">Records</a>
-              <a href="#company" className="hover:text-blue-400 transition">Company</a>
-            </div>
-
-            <button 
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-        </div>
-
-        {isMenuOpen && (
-          <div className="md:hidden bg-slate-800 border-t border-blue-500/20">
-            <a href="#home" className="block px-4 py-2 hover:bg-slate-700">Home</a>
-            <a href="#about" className="block px-4 py-2 hover:bg-slate-700">About</a>
-            <a href="#education" className="block px-4 py-2 hover:bg-slate-700">Education</a>
-            <a href="#achievements" className="block px-4 py-2 hover:bg-slate-700">Achievements</a>
-            <a href="#records" className="block px-4 py-2 hover:bg-slate-700">Records</a>
-            <a href="#company" className="block px-4 py-2 hover:bg-slate-700">Company</a>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <section id="home" className="pt-32 pb-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-            {/* Profile Image */}
-            <div className="relative">
-              <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-blue-500 shadow-2xl shadow-blue-500/50">
-                <div className="w-full h-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-8xl font-bold text-white mb-2">MP</div>
-                    <div className="text-sm text-blue-200">Add Your Photo</div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 bg-yellow-500 p-4 rounded-full">
-                <Trophy size={32} className="text-slate-900" />
-              </div>
-            </div>
-
-            {/* Hero Text */}
-            <div className="text-center md:text-left">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                Mahesh P.G.
-              </h1>
-              <p className="text-xl md:text-2xl text-blue-300 mb-4">
-                Youngest Entrepreneur in Mechanical Industry
-              </p>
-              <p className="text-lg text-gray-300 mb-8">
-                Innovator • Patent Holder • Record Breaker
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                <a href="#achievements" className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full font-semibold transition">
-                  View Achievements
-                </a>
-                <button 
-                  onClick={() => setIsChatOpen(true)}
-                  className="bg-slate-700 hover:bg-slate-600 px-8 py-3 rounded-full font-semibold transition flex items-center gap-2"
-                >
-                  <MessageSquare size={20} />
-                  Ask AI About Me
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20 px-4 bg-slate-800/50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center">About</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20">
-              <h3 className="text-2xl font-semibold mb-4 text-blue-400">Background</h3>
-              <p className="text-gray-300 leading-relaxed">
-                Born on September 2, 2001, in Kasaragod, Kerala, India, Mahesh P.G. has demonstrated 
-                exceptional entrepreneurial spirit and innovation from a young age. His journey in the 
-                mechanical industry showcases a unique blend of technical expertise and business acumen.
-              </p>
-            </div>
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20">
-              <h3 className="text-2xl font-semibold mb-4 text-blue-400">Vision</h3>
-              <p className="text-gray-300 leading-relaxed">
-                As the founder of Yoshio Mech Private Limited, Mahesh is committed to revolutionizing 
-                the mechanical manufacturing sector through innovation and cutting-edge technology. His 
-                patents reflect a dedication to solving real-world problems through engineering excellence.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Education Section */}
-      <section id="education" className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center">Education</h2>
-          <div className="max-w-4xl mx-auto space-y-6">
-            
-            {/* MBA */}
-            <div className="bg-gradient-to-r from-blue-900/30 to-slate-900/30 p-6 rounded-2xl border border-blue-500/30 hover:border-blue-500/50 transition">
-              <div className="flex items-start gap-4">
-                <div className="bg-blue-600 p-3 rounded-lg">
-                  <BookOpen size={24} />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-semibold text-blue-400 mb-2">Master of Business Administration (MBA)</h3>
-                  <p className="text-gray-300 text-lg">2025</p>
-                  <p className="text-gray-400 text-sm mt-2">Advanced business and management education</p>
-                </div>
-              </div>
-            </div>
-
-            {/* BTech */}
-            <div className="bg-gradient-to-r from-cyan-900/30 to-slate-900/30 p-6 rounded-2xl border border-cyan-500/30 hover:border-cyan-500/50 transition">
-              <div className="flex items-start gap-4">
-                <div className="bg-cyan-600 p-3 rounded-lg">
-                  <BookOpen size={24} />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-semibold text-cyan-400 mb-2">Bachelor of Technology (B.Tech)</h3>
-                  <p className="text-gray-300 text-lg">2023</p>
-                  <p className="text-gray-400 text-sm mt-2">Engineering degree in mechanical/related field</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Diploma */}
-            <div className="bg-gradient-to-r from-purple-900/30 to-slate-900/30 p-6 rounded-2xl border border-purple-500/30 hover:border-purple-500/50 transition">
-              <div className="flex items-start gap-4">
-                <div className="bg-purple-600 p-3 rounded-lg">
-                  <BookOpen size={24} />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-semibold text-purple-400 mb-2">Diploma</h3>
-                  <p className="text-gray-300 text-lg">2021</p>
-                  <p className="text-gray-400 text-sm mt-2">Technical diploma in engineering</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 12th Grade */}
-            <div className="bg-gradient-to-r from-green-900/30 to-slate-900/30 p-6 rounded-2xl border border-green-500/30 hover:border-green-500/50 transition">
-              <div className="flex items-start gap-4">
-                <div className="bg-green-600 p-3 rounded-lg">
-                  <BookOpen size={24} />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-semibold text-green-400 mb-2">Higher Secondary Education (12th Grade)</h3>
-                  <p className="text-gray-300 text-lg">2019</p>
-                  <p className="text-gray-400 text-sm mt-2">Pre-university education</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Education Timeline Visual */}
-          <div className="mt-12 max-w-2xl mx-auto">
-            <div className="bg-slate-900/50 p-6 rounded-2xl border border-blue-500/20">
-              <h3 className="text-xl font-semibold mb-6 text-center text-blue-400">Educational Journey</h3>
-              <div className="flex justify-between items-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2019</div>
-                  <p className="text-xs text-gray-400">12th</p>
-                </div>
-                <div className="flex-1 h-1 bg-gradient-to-r from-green-600 to-purple-600 mx-2"></div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2021</div>
-                  <p className="text-xs text-gray-400">Diploma</p>
-                </div>
-                <div className="flex-1 h-1 bg-gradient-to-r from-purple-600 to-cyan-600 mx-2"></div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2023</div>
-                  <p className="text-xs text-gray-400">B.Tech</p>
-                </div>
-                <div className="flex-1 h-1 bg-gradient-to-r from-cyan-600 to-blue-600 mx-2"></div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2025</div>
-                  <p className="text-xs text-gray-400">MBA</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Achievements Section */}
-      <section id="achievements" className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center">Patents & Innovations</h2>
-          <div className="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20 max-w-3xl mx-auto">
-            <div className="flex items-start gap-4 mb-6">
-              <Award className="text-blue-400 flex-shrink-0" size={32} />
-              <div>
-                <h3 className="text-2xl font-semibold mb-4">6 Patents Filed</h3>
-                <p className="text-gray-300 mb-4">
-                  Filed 6 patents over a period of 17 months from April 2019 to September 2020, 
-                  demonstrating remarkable productivity and innovation.
-                </p>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 mt-6">
-              <div className="bg-slate-800 p-4 rounded-lg">
-                <div className="text-3xl font-bold text-blue-400">4</div>
-                <div className="text-sm text-gray-400">Patents in 2019</div>
-                <div className="text-xs text-gray-500 mt-1">1 Published</div>
-              </div>
-              <div className="bg-slate-800 p-4 rounded-lg">
-                <div className="text-3xl font-bold text-cyan-400">2</div>
-                <div className="text-sm text-gray-400">Patents in 2020</div>
-                <div className="text-xs text-gray-500 mt-1">1 Published</div>
-              </div>
-            </div>
-            <p className="text-sm text-gray-400 mt-4">
-              Confirmed by Asia Book of Records on April 21, 2021
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Records Section */}
-      <section id="records" className="py-20 px-4 bg-slate-800/50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center">Records & Recognition</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-blue-900/50 to-slate-900/50 p-8 rounded-2xl border border-blue-500/30">
-              <Trophy className="text-yellow-400 mb-4" size={40} />
-              <h3 className="text-2xl font-semibold mb-4">Patent Filing Achievement</h3>
-              <p className="text-gray-300 mb-4">
-                Recognized by Asia Book of Records for filing 6 patents in just 17 months, 
-                showcasing exceptional innovation and dedication to research and development.
-              </p>
-              <p className="text-sm text-blue-400">Confirmed: April 21, 2021</p>
-            </div>
-            <div className="bg-gradient-to-br from-cyan-900/50 to-slate-900/50 p-8 rounded-2xl border border-cyan-500/30">
-              <Trophy className="text-yellow-400 mb-4" size={40} />
-              <h3 className="text-2xl font-semibold mb-4">Youngest Entrepreneur</h3>
-              <p className="text-gray-300 mb-4">
-                Set a record as the youngest entrepreneur in the Mechanical industry by incorporating 
-                Yoshio Mech Private Limited at age 20 years and 12 days.
-              </p>
-              <p className="text-sm text-cyan-400">Confirmed: February 21, 2023</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Company Section */}
-      <section id="company" className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center">Yoshio Mech Private Limited</h2>
-          <div className="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20 max-w-4xl mx-auto">
-            <div className="flex items-start gap-4 mb-6">
-              <Building2 className="text-blue-400 flex-shrink-0" size={40} />
-              <div>
-                <h3 className="text-2xl font-semibold mb-4">About the Company</h3>
-                <p className="text-gray-300 mb-4">
-                  Yoshio Mech Private Limited specializes in manufacturing machineries and equipment 
-                  for various industrial applications. Founded with a vision to bring innovation to 
-                  the mechanical sector, the company focuses on quality, efficiency, and cutting-edge technology.
-                </p>
-                <div className="grid md:grid-cols-3 gap-4 mt-6">
-                  <div className="bg-slate-800 p-4 rounded-lg">
-                    <div className="text-sm text-gray-400">Incorporated</div>
-                    <div className="text-lg font-semibold text-blue-400">Sept 14, 2021</div>
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-lg">
-                    <div className="text-sm text-gray-400">Industry</div>
-                    <div className="text-lg font-semibold text-blue-400">Mechanical</div>
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-lg">
-                    <div className="text-sm text-gray-400">Focus</div>
-                    <div className="text-lg font-semibold text-blue-400">Manufacturing</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Appreciation Section */}
-      <section className="py-20 px-4 bg-slate-800/50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8">Official Recognition</h2>
-          <div className="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 p-8 rounded-2xl border border-blue-500/30">
-            <BookOpen className="mx-auto mb-4 text-blue-400" size={48} />
-            <h3 className="text-2xl font-semibold mb-4">Asia Book of Records</h3>
-            <p className="text-gray-300 leading-relaxed">
-              Mahesh P.G. has been officially recognized by the Asia Book of Records for his 
-              outstanding achievements in innovation and entrepreneurship. His records stand as 
-              a testament to his dedication, hard work, and exceptional talent in the field of 
-              mechanical engineering and business.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-900 py-8 px-4 border-t border-blue-500/20">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-400">
-            © 2024 Mahesh P.G. All rights reserved.
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            For partnerships and inquiries, please reach out through available channels.
-          </p>
-        </div>
-      </footer>
-
-      {/* AI Chatbot */}
-      {isChatOpen && (
-        <div className="fixed bottom-4 right-4 w-96 h-[500px] bg-slate-900 rounded-2xl shadow-2xl border border-blue-500/30 flex flex-col z-50">
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-4 rounded-t-2xl flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <MessageSquare size={20} />
-              <span className="font-semibold">Ask About Mahesh</span>
-            </div>
-            <button onClick={() => setIsChatOpen(false)} className="hover:bg-white/20 p-1 rounded">
-              <Minimize2 size={20} />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] p-3 rounded-2xl ${
-                  msg.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-br-none' 
-                    : 'bg-slate-800 text-gray-200 rounded-bl-none'
-                }`}>
-                  <p className="text-sm whitespace-pre-line">{msg.content}</p>
-                </div>
-              </div>
-            ))}
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="bg-slate-800 p-3 rounded-2xl rounded-bl-none">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          <div className="p-4 border-t border-slate-700">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="Ask me anything..."
-                className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                onClick={handleSendMessage}
-                className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition"
-              >
-                <Send size={20} />
+            </h1>
+            <p class="text-xl md:text-2xl text-blue-300 mb-4">Youngest Entrepreneur in Mechanical Industry</p>
+            <p class="text-lg text-gray-300 mb-8">Innovator • Patent Holder • Record Breaker</p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4">
+              <a href="#achievements" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full font-semibold transition">View Achievements</a>
+              <button id="openChatBtn" class="bg-slate-700 hover:bg-slate-600 px-8 py-3 rounded-full font-semibold transition flex items-center gap-2">
+                <!-- Message square SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Ask AI About Me
               </button>
             </div>
           </div>
         </div>
-      )}
+      </div>
+    </section>
 
-      {/* Floating Chat Button */}
-      {!isChatOpen && (
-        <button
-          onClick={() => setIsChatOpen(true)}
-          className="fixed bottom-4 right-4 bg-gradient-to-r from-blue-600 to-cyan-600 p-4 rounded-full shadow-2xl hover:shadow-blue-500/50 transition z-50"
-        >
-          <MessageSquare size={24} />
-        </button>
-      )}
+    <!-- About -->
+    <section id="about" class="py-20 px-4 bg-slate-800/50">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center">About</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20">
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Background</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Born on September 2, 2001, in Kasaragod, Kerala, India, Mahesh P.G. has demonstrated exceptional entrepreneurial spirit and innovation from a young age. His journey in the mechanical industry showcases a unique blend of technical expertise and business acumen.
+            </p>
+          </div>
+          <div class="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20">
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Vision</h3>
+            <p class="text-gray-300 leading-relaxed">
+              As the founder of Yoshio Mech Private Limited, Mahesh is committed to revolutionizing the mechanical manufacturing sector through innovation and cutting-edge technology. His patents reflect a dedication to solving real-world problems through engineering excellence.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="py-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center">Education</h2>
+        <div class="max-w-4xl mx-auto space-y-6">
+          <!-- Cards -->
+          <div class="bg-gradient-to-r from-blue-900/30 to-slate-900/30 p-6 rounded-2xl border border-blue-500/30 hover:border-blue-500/50 transition">
+            <div class="flex items-start gap-4">
+              <div class="bg-blue-600 p-3 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-2xl font-semibold text-blue-400 mb-2">Master of Business Administration (MBA)</h3>
+                <p class="text-gray-300 text-lg">2025</p>
+                <p class="text-gray-400 text-sm mt-2">Advanced business and management education</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-cyan-900/30 to-slate-900/30 p-6 rounded-2xl border border-cyan-500/30 hover:border-cyan-500/50 transition">
+            <div class="flex items-start gap-4">
+              <div class="bg-cyan-600 p-3 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l4 4-4 4-4-4 4-4zM2 10v10h20V10"/></svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-2xl font-semibold text-cyan-400 mb-2">Bachelor of Technology (B.Tech)</h3>
+                <p class="text-gray-300 text-lg">2023</p>
+                <p class="text-gray-400 text-sm mt-2">Engineering degree in mechanical/related field</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-purple-900/30 to-slate-900/30 p-6 rounded-2xl border border-purple-500/30 hover:border-purple-500/50 transition">
+            <div class="flex items-start gap-4">
+              <div class="bg-purple-600 p-3 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M6 14V4m12 10V4"/></svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-2xl font-semibold text-purple-400 mb-2">Diploma</h3>
+                <p class="text-gray-300 text-lg">2021</p>
+                <p class="text-gray-400 text-sm mt-2">Technical diploma in engineering</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-green-900/30 to-slate-900/30 p-6 rounded-2xl border border-green-500/30 hover:border-green-500/50 transition">
+            <div class="flex items-start gap-4">
+              <div class="bg-green-600 p-3 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4.5v9L12 22 3 15.5v-9L12 2z"/></svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-2xl font-semibold text-green-400 mb-2">Higher Secondary Education (12th Grade)</h3>
+                <p class="text-gray-300 text-lg">2019</p>
+                <p class="text-gray-400 text-sm mt-2">Pre-university education</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Timeline -->
+        <div class="mt-12 max-w-2xl mx-auto">
+          <div class="bg-slate-900/50 p-6 rounded-2xl border border-blue-500/20">
+            <h3 class="text-xl font-semibold mb-6 text-center text-blue-400">Educational Journey</h3>
+            <div class="flex justify-between items-center">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2019</div>
+                <p class="text-xs text-gray-400">12th</p>
+              </div>
+              <div class="flex-1 h-1 bg-gradient-to-r from-green-600 to-purple-600 mx-2"></div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2021</div>
+                <p class="text-xs text-gray-400">Diploma</p>
+              </div>
+              <div class="flex-1 h-1 bg-gradient-to-r from-purple-600 to-cyan-600 mx-2"></div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2023</div>
+                <p class="text-xs text-gray-400">B.Tech</p>
+              </div>
+              <div class="flex-1 h-1 bg-gradient-to-r from-cyan-600 to-blue-600 mx-2"></div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-xl font-bold mb-2">2025</div>
+                <p class="text-xs text-gray-400">MBA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Achievements -->
+    <section id="achievements" class="py-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center">Patents & Innovations</h2>
+        <div class="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20 max-w-3xl mx-auto">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="text-blue-400 flex-shrink-0" style="width:32px;height:32px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.5 5.5L20 9l-4 3.5L17 19l-5-2.5L7 19l1-6.5L4 9l5.5-1.5L12 2z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-4">6 Patents Filed</h3>
+              <p class="text-gray-300 mb-4">
+                Filed 6 patents over a period of 17 months from April 2019 to September 2020, demonstrating remarkable productivity and innovation.
+              </p>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 mt-6">
+            <div class="bg-slate-800 p-4 rounded-lg">
+              <div class="text-3xl font-bold text-blue-400">4</div>
+              <div class="text-sm text-gray-400">Patents in 2019</div>
+              <div class="text-xs text-gray-500 mt-1">1 Published</div>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-lg">
+              <div class="text-3xl font-bold text-cyan-400">2</div>
+              <div class="text-sm text-gray-400">Patents in 2020</div>
+              <div class="text-xs text-gray-500 mt-1">1 Published</div>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 mt-4">Confirmed by Asia Book of Records on April 21, 2021</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Records -->
+    <section id="records" class="py-20 px-4 bg-slate-800/50">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center">Records & Recognition</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-gradient-to-br from-blue-900/50 to-slate-900/50 p-8 rounded-2xl border border-blue-500/30">
+            <div class="mb-4">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="1.5"><path d="M12 2l2.5 5.5L20 9l-4 3.5L17 19l-5-2.5L7 19l1-6.5L4 9l5.5-1.5L12 2z"/></svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-4">Patent Filing Achievement</h3>
+            <p class="text-gray-300 mb-4">Recognized by Asia Book of Records for filing 6 patents in just 17 months, showcasing exceptional innovation and dedication to research and development.</p>
+            <p class="text-sm text-blue-400">Confirmed: April 21, 2021</p>
+          </div>
+          <div class="bg-gradient-to-br from-cyan-900/50 to-slate-900/50 p-8 rounded-2xl border border-cyan-500/30">
+            <div class="mb-4">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="1.5"><path d="M12 2l2.5 5.5L20 9l-4 3.5L17 19l-5-2.5L7 19l1-6.5L4 9l5.5-1.5L12 2z"/></svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-4">Youngest Entrepreneur</h3>
+            <p class="text-gray-300 mb-4">Set a record as the youngest entrepreneur in the Mechanical industry by incorporating Yoshio Mech Private Limited at age 20 years and 12 days.</p>
+            <p class="text-sm text-cyan-400">Confirmed: February 21, 2023</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company -->
+    <section id="company" class="py-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center">Yoshio Mech Private Limited</h2>
+        <div class="bg-slate-900/50 p-8 rounded-2xl border border-blue-500/20 max-w-4xl mx-auto">
+          <div class="flex items-start gap-4 mb-6">
+            <div style="width:40px;height:40px">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.5"><path d="M3 10h18v8H3zM6 6h12v4H6z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-4">About the Company</h3>
+              <p class="text-gray-300 mb-4">Yoshio Mech Private Limited specializes in manufacturing machineries and equipment for various industrial applications. Founded with a vision to bring innovation to the mechanical sector, the company focuses on quality, efficiency, and cutting-edge technology.</p>
+
+              <div class="grid md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-slate-800 p-4 rounded-lg">
+                  <div class="text-sm text-gray-400">Incorporated</div>
+                  <div class="text-lg font-semibold text-blue-400">Sept 14, 2021</div>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg">
+                  <div class="text-sm text-gray-400">Industry</div>
+                  <div class="text-lg font-semibold text-blue-400">Mechanical</div>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg">
+                  <div class="text-sm text-gray-400">Focus</div>
+                  <div class="text-lg font-semibold text-blue-400">Manufacturing</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Appreciation -->
+    <section class="py-20 px-4 bg-slate-800/50">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-8">Official Recognition</h2>
+        <div class="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 p-8 rounded-2xl border border-blue-500/30">
+          <div class="mx-auto mb-4 text-blue-400" style="width:48px;height:48px">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.5"><path d="M3 9l9-6 9 6v8a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Asia Book of Records</h3>
+          <p class="text-gray-300 leading-relaxed">Mahesh P.G. has been officially recognized by the Asia Book of Records for his outstanding achievements in innovation and entrepreneurship. His records stand as a testament to his dedication, hard work, and exceptional talent in the field of mechanical engineering and business.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8 px-4 border-t border-blue-500/20">
+      <div class="max-w-7xl mx-auto text-center">
+        <p class="text-gray-400">© 2024 Mahesh P.G. All rights reserved.</p>
+        <p class="text-sm text-gray-500 mt-2">For partnerships and inquiries, please reach out through available channels.</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Chat widget (hidden by default) -->
+  <div id="chatWidget" class="fixed bottom-4 right-4 w-96 h-[500px] bg-slate-900 rounded-2xl shadow-2xl border border-blue-500/30 flex flex-col z-50 hidden">
+    <div class="bg-gradient-to-r from-blue-600 to-cyan-600 p-4 rounded-t-2xl flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span class="font-semibold">Ask About Mahesh</span>
+      </div>
+      <button id="closeChatBtn" class="hover:bg-white/20 p-1 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
     </div>
-  );
-};
 
-export default MaheshPortfolio;
+    <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+      <!-- messages inserted here -->
+    </div>
+
+    <div class="p-4 border-t border-slate-700">
+      <div class="flex gap-2">
+        <input id="chatInput" type="text" placeholder="Ask me anything..." class="flex-1 bg-slate-800 text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <button id="sendBtn" class="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M22 2L11 13"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Chat Button -->
+  <button id="openChatSmall" class="fixed bottom-4 right-4 bg-gradient-to-r from-blue-600 to-cyan-600 p-4 rounded-full shadow-2xl hover:shadow-blue-500/50 transition z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </button>
+
+  <!-- Tiny JS for UI + canned AI responses -->
+  <script>
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileLinks = document.getElementById('mobileLinks');
+    const menuIcon = document.getElementById('menuIcon');
+    const closeIcon = document.getElementById('closeIcon');
+    mobileBtn.addEventListener('click', () => {
+      const open = !mobileLinks.classList.contains('hidden');
+      if(open){
+        mobileLinks.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      } else {
+        mobileLinks.classList.remove('hidden');
+        menuIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      }
+    });
+
+    // Chat UI elements
+    const chatWidget = document.getElementById('chatWidget');
+    const openChatBtn = document.getElementById('openChatBtn');
+    const openChatSmall = document.getElementById('openChatSmall');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatInput = document.getElementById('chatInput');
+    const messagesContainer = document.getElementById('messagesContainer');
+
+    // initial messages
+    const messages = [
+      { role: 'assistant', content: "Hi! I'm here to answer questions about Mahesh P.G. Ask me about his achievements, patents, company, or records!" }
+    ];
+
+    function renderMessages(){
+      messagesContainer.innerHTML = '';
+      messages.forEach(msg => {
+        const wrapper = document.createElement('div');
+        wrapper.className = msg.role === 'user' ? 'flex justify-end' : 'flex justify-start';
+        const bubble = document.createElement('div');
+        bubble.className = msg.role === 'user'
+          ? 'max-w-[80%] p-3 rounded-2xl bg-blue-600 text-white rounded-br-none'
+          : 'max-w-[80%] p-3 rounded-2xl bg-slate-800 text-gray-200 rounded-bl-none';
+        bubble.style.whiteSpace = 'pre-line';
+        bubble.innerText = msg.content;
+        wrapper.appendChild(bubble);
+        messagesContainer.appendChild(wrapper);
+      });
+      // scroll to bottom
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    renderMessages();
+
+    function showTypingIndicator(){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex justify-start';
+      const bubble = document.createElement('div');
+      bubble.className = 'bg-slate-800 p-3 rounded-2xl rounded-bl-none';
+      const dots = document.createElement('div');
+      dots.className = 'flex gap-1';
+      for(let i=0;i<3;i++){
+        const d = document.createElement('div');
+        d.className = 'animate-bounce-dot';
+        dots.appendChild(d);
+      }
+      bubble.appendChild(dots);
+      wrapper.appendChild(bubble);
+      messagesContainer.appendChild(wrapper);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      return wrapper;
+    }
+
+    function getAIResponse(userMessage) {
+      const lowerMsg = userMessage.toLowerCase();
+      if (lowerMsg.includes('patent')) {
+        return "Mahesh P.G. has filed 6 patents over a period of 17 months from April 2019 to September 2020. He filed 4 patents in 2019 and 2 patents in 2020. Two patents were published (one in 2019 and one in 2020), as confirmed on April 21, 2021.";
+      } else if (lowerMsg.includes('company') || lowerMsg.includes('business') || lowerMsg.includes('yoshio')) {
+        return "Mahesh P.G. is the founder of Yoshio Mech Private Limited, a company manufacturing machineries and equipment. The company was incorporated on September 14, 2021, when Mahesh was just 20 years and 12 days old, making him the youngest entrepreneur in the Mechanical industry.";
+      } else if (lowerMsg.includes('age') || lowerMsg.includes('born') || lowerMsg.includes('old')) {
+        const birthDate = new Date('2001-09-02');
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+        return "Mahesh P.G. was born on September 2, 2001, making him " + age + " years old. He's from Kasaragod, Kerala, India.";
+      } else if (lowerMsg.includes('record') || lowerMsg.includes('achievement')) {
+        return "Mahesh P.G. holds two major records recognized by the Asia Book of Records:\n\n1. Patent Filing Achievement - Filed 6 patents in just 17 months (April 2019 - September 2020)\n\n2. Youngest Entrepreneur in Mechanical Industry - Founded his company at age 20 years and 12 days, setting a record in the mechanical manufacturing sector.";
+      } else if (lowerMsg.includes('education') || lowerMsg.includes('study') || lowerMsg.includes('degree') || lowerMsg.includes('mba') || lowerMsg.includes('btech') || lowerMsg.includes('diploma')) {
+        return "Mahesh P.G. has an impressive educational background:\n\n• MBA - 2025\n• B.Tech - 2023\n• Diploma - 2021\n• 12th Grade - 2019\n\nHis combination of technical engineering education and business management skills has been instrumental in his success as an entrepreneur and innovator.";
+      } else if (lowerMsg.includes('contact') || lowerMsg.includes('email') || lowerMsg.includes('reach')) {
+        return "For business inquiries or partnerships, you can reach out through the website's contact section. Mahesh P.G. is open to collaborations in the mechanical industry and innovation sectors.";
+      } else {
+        return "I can help you learn about Mahesh P.G.'s achievements! Ask me about:\n\n• His patents and innovations\n• Yoshio Mech Private Limited\n• His records and achievements\n• His age and background\n• Partnership opportunities";
+      }
+    }
+
+    function sendMessage() {
+      const text = chatInput.value.trim();
+      if(!text) return;
+      // add user message
+      messages.push({ role: 'user', content: text });
+      renderMessages();
+      chatInput.value = '';
+      // show typing
+      const typingEl = showTypingIndicator();
+
+      // simulate async response
+      setTimeout(() => {
+        // remove typing indicator
+        typingEl.remove();
+        const ai = getAIResponse(text);
+        messages.push({ role: 'assistant', content: ai });
+        renderMessages();
+      }, 900);
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+    openChatBtn.addEventListener('click', () => {
+      chatWidget.classList.remove('hidden');
+      openChatSmall.classList.add('hidden');
+    });
+    openChatSmall.addEventListener('click', () => {
+      chatWidget.classList.remove('hidden');
+      openChatSmall.classList.add('hidden');
+    });
+    closeChatBtn.addEventListener('click', () => {
+      chatWidget.classList.add('hidden');
+      openChatSmall.classList.remove('hidden');
+    });
+
+    // Quick open button on hero: if it exists
+    try {
+      document.getElementById('openChatBtn').addEventListener('click', () => {
+        chatWidget.classList.remove('hidden');
+        openChatSmall.classList.add('hidden');
+      });
+    } catch(e){ /* ignore if not present */ }
+
+    // ensure initial small button visible
+    openChatSmall.classList.remove('hidden');
+
+  </script>
+
+</body>
+</html>
