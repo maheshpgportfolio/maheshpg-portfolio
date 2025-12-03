@@ -1,0 +1,34 @@
+{
+  "name": "maheshpg-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio website for Mahesh P.G.",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s . -l 3000"
+  },
+  "keywords": ["portfolio", "react", "personal-website"],
+  "author": "Mahesh P.G.",
+  "license": "MIT"
+}
+```
+
+### 4. **.gitignore**
+```
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
